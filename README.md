@@ -31,12 +31,12 @@ explains risks, and provides actionable remediation insights.
 
 Frontend:
 
-🔗 YOUR_VERCEL_URL
+🔗 (https://frontend-rho-neon-60.vercel.app/)
 
 
 Backend API:
 
-🔗 YOUR_RENDER_URL
+🔗 https://aegis-0eke.onrender.com/docs
 
 
 > ⚠️ Backend is deployed on Render Free Tier.
