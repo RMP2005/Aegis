@@ -14,7 +14,7 @@ MOCK_EXPLANATIONS = {
     },
     "tx.origin": {
         "explanation": "Using tx.origin for authorization means any contract called by the legitimate user can impersonate them. If a user interacts with a malicious contract, that contract can forward the call to this contract and pass the authorization check.",
-        "exploit_path": "Victim calls malicious contract → Malicious contract calls AegisVault.withdraw() → tx.origin is victim's address → Authorization passes → Funds stolen",
+        "exploit_path": "Victim calls malicious contract → Malicious contract calls target.withdraw() → tx.origin is victim's address → Authorization passes → Funds stolen",
         "recommendation": "Replace tx.origin with msg.sender. Only use tx.origin when you specifically need to prevent contract-to-contract interaction."
     },
     "arbitrary": {
@@ -27,9 +27,19 @@ MOCK_EXPLANATIONS = {
         "exploit_path": "Attacker triggers operation causing underflow → Balance wraps to MAX_UINT → Attacker withdraws more than deposited",
         "recommendation": "Use Solidity 0.8+ for built-in overflow checks, or use OpenZeppelin's SafeMath library for older versions."
     },
+    "suicide": {
+        "explanation": "The selfdestruct instruction permanently destroys the contract and sends its remaining balance to a specified address. If accessible to unauthorized users, an attacker can destroy the contract or force-send ETH.",
+        "exploit_path": "Attacker calls selfdestruct/destroy() → Contract selfdestructs → All remaining ETH sent to attacker → Contract ceases to exist",
+        "recommendation": "Remove selfdestruct unless strictly necessary. If required, implement multi-signature authorization and time-locked execution."
+    },
     "selfdestruct": {
         "explanation": "The selfdestruct instruction permanently destroys the contract and sends its remaining balance to a specified address. If accessible to unauthorized users, an attacker can destroy the contract or force-send ETH.",
-        "exploit_path": "Attacker calls destroy() → Contract selfdestructs → All remaining ETH sent to attacker → Contract ceases to exist",
+        "exploit_path": "Attacker calls selfdestruct/destroy() → Contract selfdestructs → All remaining ETH sent to attacker → Contract ceases to exist",
+        "recommendation": "Remove selfdestruct unless strictly necessary. If required, implement multi-signature authorization and time-locked execution."
+    },
+    "suicidal": {
+        "explanation": "The selfdestruct instruction permanently destroys the contract and sends its remaining balance to a specified address. If accessible to unauthorized users, an attacker can destroy the contract or force-send ETH.",
+        "exploit_path": "Attacker calls selfdestruct/destroy() → Contract selfdestructs → All remaining ETH sent to attacker → Contract ceases to exist",
         "recommendation": "Remove selfdestruct unless strictly necessary. If required, implement multi-signature authorization and time-locked execution."
     },
     "delegatecall": {
@@ -42,10 +52,25 @@ MOCK_EXPLANATIONS = {
         "exploit_path": "Operation fails silently → Contract assumes success → State variables not updated correctly → Subsequent operations based on incorrect state",
         "recommendation": "Always check return values from call(), send(), and transfer(). Use require() to revert on failure."
     },
+    "low level": {
+        "explanation": "Low-level calls (call, delegatecall, staticcall) bypass Solidity's type safety and error handling. They can fail silently, leading to inconsistent state and potential loss of funds.",
+        "exploit_path": "Attacker triggers a low-level call that fails → Contract continues as if successful → State becomes inconsistent → Exploited by subsequent operations",
+        "recommendation": "Prefer high-level calls where possible. If low-level calls are necessary, always check return values and handle failures explicitly."
+    },
     "locked": {
         "explanation": "The contract receives ether but has no function to withdraw it. Funds sent to this contract will be permanently locked.",
         "exploit_path": "User sends ETH to contract → No withdrawal function exists → ETH is permanently locked in contract",
         "recommendation": "Implement a withdrawal function with proper access controls, or accept that the contract is a one-way sink."
+    },
+    "immutable": {
+        "explanation": "State variables declared as immutable are set once in the constructor and cannot be changed. If these values need to be updated for contract upgrades or parameter changes, immutability becomes a limitation.",
+        "exploit_path": "Contract logic requires updated parameters → Immutable values cannot be changed → Contract must be redeployed, causing disruption and potential fund migration risks",
+        "recommendation": "Consider whether immutability is truly necessary. For parameters that may need updating, use regular state variables with access controls instead."
+    },
+    "missing zero": {
+        "explanation": "A state variable (such as an address) is set without checking whether the provided value is the zero/empty address. Setting an address to address(0) can permanently lock associated funds or permissions.",
+        "exploit_path": "Owner calls setter with address(0) → Permission or ownership assigned to zero address → Function becomes permanently inaccessible or funds locked",
+        "recommendation": "Always validate that address parameters are not address(0) before assigning them to state variables."
     },
     "default": {
         "explanation": "This is a security issue identified by static analysis. The flagged code pattern may lead to unexpected behavior, loss of funds, or contract compromise under certain conditions.",

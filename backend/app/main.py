@@ -17,8 +17,8 @@ app = FastAPI(
     title="Aegis API",
     description="AI Smart Contract Security Analysis",
     version="1.0.0",
-    docs_url="/docs",
-    redoc_url="/redoc",
+    docs_url="/docs" if os.environ.get("ENABLE_DOCS", "true").lower() == "true" else None,
+    redoc_url="/redoc" if os.environ.get("ENABLE_DOCS", "true").lower() == "true" else None,
 )
 
 MAX_BODY_SIZE = 500_000

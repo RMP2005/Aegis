@@ -136,7 +136,7 @@ def _generate_recommendation(vuln: dict) -> str:
     return "Review the flagged code and apply appropriate security measures based on the specific vulnerability."
 
 
-def _normalize_results(data: dict[str, Any]) -> list[dict]:
+def _normalize_results(data: dict[str, Any], original_filename: str = "Contract.sol") -> list[dict]:
     vulnerabilities = []
     results = data.get("results", {})
     detectors = results.get("detectors", [])
@@ -155,10 +155,13 @@ def _normalize_results(data: dict[str, Any]) -> list[dict]:
                 filename_relative = source.get("filename_relative", "")
                 lines = source.get("lines", [])
                 if filename_relative and filename_relative.endswith(".sol"):
-                    filename = filename_relative
+                    filename = Path(filename_relative).name
                     if lines:
                         line = lines[0]
                     break
+
+        if not filename:
+            filename = original_filename
 
         title = _map_detector_type_to_title(check)
         severity = _map_to_severity(impact, confidence)
@@ -166,7 +169,7 @@ def _normalize_results(data: dict[str, Any]) -> list[dict]:
         vuln = {
             "severity": severity,
             "title": title,
-            "location": f"{filename}:{line}" if filename else "Unknown",
+            "location": f"{filename}:{line}" if line else filename,
             "line": line,
             "explanation": _generate_explanation({"title": title, "check": check, "description": description}),
             "exploit_path": _generate_exploit_path({"check": check}),
@@ -204,7 +207,7 @@ def run_slither(source_code: str, filename: str = "Contract.sol") -> SlitherResu
 
         try:
             json_data = json.loads(output) if output.strip() else {}
-            vulnerabilities = _normalize_results(json_data)
+            vulnerabilities = _normalize_results(json_data, original_filename=filename)
         except json.JSONDecodeError:
             if result.returncode != 0:
                 raise RuntimeError(f"Slither failed: {result.stderr[:500]}")

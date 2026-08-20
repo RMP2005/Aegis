@@ -51,9 +51,10 @@ async def scan_contract(request: ScanRequest):
         slither_result = run_slither(source_code, filename)
         vulnerabilities_raw = slither_result.vulnerabilities
     except Exception as e:
+        logger.error(f"Static analysis failed: {e}")
         raise HTTPException(
             status_code=500,
-            detail=f"Static analysis failed: {str(e)}",
+            detail="Static analysis failed. Please check your source code and try again.",
         )
 
     try:
