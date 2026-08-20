@@ -17,10 +17,8 @@ export default function CodeEditor({
   vulnerableLines = [],
   filename = "Contract.sol",
 }: CodeEditorProps) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const editorRef = useRef<any>(null);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const monacoRef = useRef<any>(null);
+  const editorRef = useRef<Parameters<OnMount>[0] | null>(null);
+  const monacoRef = useRef<Parameters<OnMount>[1] | null>(null);
   const decorationsRef = useRef<string[]>([]);
 
   const handleEditorMount: OnMount = useCallback((editor, monaco) => {
@@ -56,7 +54,7 @@ export default function CodeEditor({
     if (!editor || !monaco) return;
 
     if (decorationsRef.current.length > 0) {
-      editor.decorations = editor.deltaDecorations(decorationsRef.current, []);
+      editor.deltaDecorations(decorationsRef.current, []);
       decorationsRef.current = [];
     }
 

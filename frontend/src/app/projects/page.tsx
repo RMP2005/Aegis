@@ -29,16 +29,12 @@ function formatDate(dateStr: string) {
 
 export default function ProjectsPage() {
   const [filter, setFilter] = useState<"all" | "active">("all");
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<Project[]>(() => getProjects());
   const [showModal, setShowModal] = useState(false);
   const [newName, setNewName] = useState("");
   const [newContract, setNewContract] = useState("");
   const [newDescription, setNewDescription] = useState("");
   const modalRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setProjects(getProjects());
-  }, []);
 
   useEffect(() => {
     if (!showModal) return;

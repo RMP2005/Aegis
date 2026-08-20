@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Sidebar from "@/components/workspace/Sidebar";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -38,12 +38,7 @@ function formatTime(dateStr: string) {
 
 export default function HistoryPage() {
   const [sortOrder, setSortOrder] = useState<"newest" | "oldest" | "score">("newest");
-  const [history, setHistory] = useState<ScanHistoryEntry[]>([]);
-
-  useEffect(() => {
-    setHistory(getScanHistory());
-  }, []);
-
+  const [history, setHistory] = useState<ScanHistoryEntry[]>(() => getScanHistory());
   const sorted = [...history].sort((a, b) => {
     if (sortOrder === "newest") return new Date(b.date).getTime() - new Date(a.date).getTime();
     if (sortOrder === "oldest") return new Date(a.date).getTime() - new Date(b.date).getTime();
