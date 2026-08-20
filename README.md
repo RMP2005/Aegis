@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/aegis-banner.png" width="900"/>
+  <img src="assets/aegis-banner.svg" width="900" alt="AEGIS Logo"/>
 </p>
 
 <h1 align="center">

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" width="800" height="200">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#C4993C;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#8B6914;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0F0F11;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1A1A1E;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="200" rx="12" fill="url(#bgGrad)"/>
+
+  <!-- Shield -->
+  <g transform="translate(90, 30)">
+    <path d="M70 10 L130 35 L130 85 C130 120 100 145 70 155 C40 145 10 120 10 85 L10 35 Z"
+          fill="none" stroke="url(#shieldGrad)" stroke-width="4"/>
+    <path d="M70 25 L115 44 L115 82 C115 110 90 130 70 138 C50 130 25 110 25 82 L25 44 Z"
+          fill="url(#shieldGrad)" opacity="0.15"/>
+    <!-- Checkmark -->
+    <path d="M50 80 L65 95 L95 60" fill="none" stroke="url(#shieldGrad)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Text -->
+  <text x="250" y="95" font-family="'Segoe UI', Arial, sans-serif" font-size="72" font-weight="700" fill="#C4993C" letter-spacing="8">AEGIS</text>
+  <text x="252" y="130" font-family="'Segoe UI', Arial, sans-serif" font-size="18" fill="#888888" letter-spacing="6">AI POWERED SECURITY INTELLIGENCE</text>
+</svg>
