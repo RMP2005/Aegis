@@ -5,6 +5,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+logging.basicConfig(
+    level=os.environ.get("LOG_LEVEL", "INFO").upper(),
+    format="%(asctime)s %(levelname)s [%(name)s] %(message)s",
+)
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -27,10 +32,16 @@ MAX_BODY_SIZE = 500_000
 class LimitUploadSize(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
         content_length = request.headers.get("content-length")
-        if content_length and int(content_length) > MAX_BODY_SIZE:
-            return JSONResponse(
-                {"detail": "Request body too large"}, status_code=413
-            )
+        if content_length:
+            try:
+                if int(content_length) > MAX_BODY_SIZE:
+                    return JSONResponse(
+                        {"detail": "Request body too large"}, status_code=413
+                    )
+            except (ValueError, TypeError):
+                return JSONResponse(
+                    {"detail": "Invalid content-length header"}, status_code=400
+                )
         return await call_next(request)
 
 

@@ -160,19 +160,45 @@ Both run as non-root users with read-only filesystems.
 
 ## Deployment
 
+### Recommended Platforms
+
+| Service | Platform | Why |
+|---------|----------|-----|
+| Backend | **Render** | Native Docker support, handles `$PORT`, free tier available |
+| Frontend | **Vercel** | Native Next.js support, automatic deployments from GitHub |
+
+### Backend (Render)
+
+1. Create a new **Web Service** on Render
+2. Connect your GitHub repo (`RMP2005/Aegis`)
+3. Settings:
+   - **Root Directory:** `backend`
+   - **Runtime:** Docker
+   - **Health Check Path:** `/health`
+4. Environment variables:
+   ```
+   OPENAI_API_KEY=sk-...          (optional)
+   CORS_ORIGINS=https://your-frontend.vercel.app
+   ENABLE_DOCS=false
+   ```
+5. Render auto-detects the Dockerfile and sets `$PORT`
+6. Deploy
+
 ### Frontend (Vercel)
 
-1. Push to GitHub
-2. Import in Vercel
-3. Set `NEXT_PUBLIC_API_URL` to your backend URL
+1. Import the GitHub repo (`RMP2005/Aegis`) in Vercel
+2. Settings:
+   - **Root Directory:** `frontend`
+   - **Framework Preset:** Next.js
+3. Environment variable:
+   ```
+   NEXT_PUBLIC_API_URL=https://your-backend.onrender.com
+   ```
 4. Deploy
 
-### Backend (Railway / Render / Fly.io)
+### Deployment Order
 
-1. Push to GitHub
-2. The Dockerfile handles Python 3.11, Slither, and solc 0.8.19
-3. Set `OPENAI_API_KEY` (optional), `CORS_ORIGINS`, `ENABLE_DOCS=false`
-4. Expose port 8000
+Deploy the backend first, get its URL, then set it as `NEXT_PUBLIC_API_URL` in the frontend.
 
 ### GitHub Actions CI
 
