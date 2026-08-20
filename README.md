@@ -1,16 +1,17 @@
-<div align="center">
-
-# 🛡️ AEGIS
-
-### AI Powered Security Intelligence Platform
-
-<p>
-Before attackers break your contract, AEGIS already did.
+<p align="center">
+  <img src="assets/aegis-banner.png" width="900"/>
 </p>
 
-<p>
-AEGIS is an AI-powered security analysis platform that detects vulnerabilities,
-explains risks, and provides actionable remediation insights.
+<h1 align="center">
+🛡️ AEGIS
+</h1>
+
+<h3 align="center">
+AI Powered Security Intelligence Platform
+</h3>
+
+<p align="center">
+Detect vulnerabilities. Explain risks. Recommend fixes.
 </p>
 
 <br/>
