@@ -1,32 +1,28 @@
+<div align="center">
+
 # 🛡️ AEGIS
 
-<p align="center">
+### AI Powered Security Intelligence Platform
 
-<img src="https://your-image-link-here/banner.png" width="900"/>
-
-</p>
-
-<h3 align="center">
+<p>
 Before attackers break your contract, AEGIS already did.
-</h3>
-
-<p align="center">
-An AI-powered security intelligence platform that analyzes code, detects vulnerabilities,
-identifies security patterns, and provides actionable remediation insights.
 </p>
 
+<p>
+AEGIS is an AI-powered security analysis platform that detects vulnerabilities,
+explains risks, and provides actionable remediation insights.
+</p>
 
-<p align="center">
+<br/>
 
 ![Next.js](https://img.shields.io/badge/Frontend-Next.js-black?style=for-the-badge&logo=next.js)
 ![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi)
 ![Python](https://img.shields.io/badge/Python-3.11-blue?style=for-the-badge&logo=python)
-![Machine Learning](https://img.shields.io/badge/AI-ML-purple?style=for-the-badge)
 ![Docker](https://img.shields.io/badge/Docker-Enabled-blue?style=for-the-badge&logo=docker)
-![Vercel](https://img.shields.io/badge/Frontend-Deployed-black?style=for-the-badge&logo=vercel)
-![Render](https://img.shields.io/badge/Backend-Deployed-purple?style=for-the-badge)
+![Vercel](https://img.shields.io/badge/Frontend-Vercel-black?style=for-the-badge)
+![Render](https://img.shields.io/badge/Backend-Render-purple?style=for-the-badge)
 
-</p>
+</div>
 
 
 ---
@@ -35,36 +31,39 @@ identifies security patterns, and provides actionable remediation insights.
 
 Frontend:
 
-🔗 https://your-vercel-link.vercel.app
+🔗 YOUR_VERCEL_URL
 
 
 Backend API:
 
-🔗 https://your-render-link.onrender.com
+🔗 YOUR_RENDER_URL
 
 
 > ⚠️ Backend is deployed on Render Free Tier.
-> Due to inactivity, the service may sleep and the first request can take around 30-60 seconds to wake up.
+>
+> Free instances automatically sleep after inactivity.
+> The first request may take around 30-60 seconds while the server wakes up.
 
 
 ---
 
 # 📌 Overview
 
-AEGIS is an AI-powered security analysis platform designed to help developers identify vulnerabilities before deployment.
+AEGIS is an AI-powered security intelligence platform built to help developers
+identify vulnerabilities before deployment.
 
 Instead of manually reviewing thousands of lines of code, AEGIS combines:
 
 - Artificial Intelligence
-- Machine Learning based pattern recognition
-- Automated security analysis
-- Explainable vulnerability reports
-- Developer-focused remediation suggestions
+- Security pattern recognition
+- Automated vulnerability analysis
+- Explainable AI insights
+- Developer-focused remediation
 
 
-The goal is simple:
+The objective:
 
-> Make secure coding faster, smarter, and accessible.
+> Build a smarter security assistant that helps developers write safer code.
 
 
 ---
@@ -72,39 +71,41 @@ The goal is simple:
 # ✨ Features
 
 
-## 🔍 AI Powered Code Analysis
+## 🔍 AI Powered Security Analysis
 
 - Automated vulnerability scanning
-- Security pattern detection
-- Risk classification
-- Code-level insights
+- Security issue detection
+- Risk categorization
+- Code analysis
 
 
 ## 🧠 Explainable AI Insights
 
-Instead of only detecting problems, AEGIS explains:
+AEGIS does not only detect problems.
 
-- Why the vulnerability exists
+It explains:
+
+- Why the issue exists
 - Severity level
-- Possible exploitation impact
+- Possible impact
 - Recommended fixes
 
 
-## 📊 Security Intelligence Dashboard
+## 📊 Security Dashboard
 
-Provides:
+Includes:
 
 - Scan history
-- Vulnerability trends
+- Vulnerability reports
 - Project monitoring
-- Risk summaries
+- Risk overview
 
 
 ## ⚡ Developer Friendly Workflow
 
-Built for developers with:
+Designed for developers with:
 
-- Fast scanning
+- Fast analysis
 - Clean reports
 - Simple interface
 - Deployment-ready architecture
@@ -112,7 +113,7 @@ Built for developers with:
 
 ---
 
-# 🏗️ System Architecture
+# 🏗️ Architecture
 
              USER
 
@@ -123,30 +124,30 @@ Built for developers with:
           (Vercel)
 
               |
-              |
 
-        REST API
+          REST API
 
-              |
               |
 
       FastAPI Backend
          (Render)
 
               |
-    -------------------
 
-    AI Security Engine
+    --------------------
 
-    ML Models
-    Rule Engine
-    Pattern Detection
+      AI Security Engine
 
-    -------------------
+      ML Models
+      Rule Engine
+      Pattern Detection
+
+    --------------------
 
               |
 
-         Reports Storage
+      Reports Storage
+
 
 
 
@@ -158,38 +159,38 @@ Built for developers with:
 ## Frontend
 
 | Technology | Purpose |
-|-|-|
-| Next.js | React framework |
-| TypeScript | Type safety |
+|---|---|
+| Next.js | React Framework |
+| TypeScript | Type Safety |
 | Tailwind CSS | Styling |
-| React Components | UI architecture |
+| React | UI Components |
 
 
 ## Backend
 
 | Technology | Purpose |
-|-|-|
+|---|---|
 | FastAPI | REST API |
-| Python | Backend logic |
+| Python | Backend Logic |
 | Uvicorn | Server |
-| Pydantic | Validation |
+| Pydantic | Data Validation |
 
 
 ## AI / ML
 
 | Technology | Purpose |
-|-|-|
-| Scikit-learn | ML models |
-| NLP techniques | Pattern analysis |
-| Rule based engine | Security detection |
+|---|---|
+| Scikit-learn | Machine Learning |
+| NLP | Pattern Analysis |
+| ML Models | Risk Prediction |
 
 
 ## Deployment
 
 | Platform | Usage |
-|-|-|
-| Vercel | Frontend hosting |
-| Render | Backend hosting |
+|---|---|
+| Vercel | Frontend Hosting |
+| Render | Backend Hosting |
 | Docker | Containerization |
 
 
@@ -205,7 +206,6 @@ AEGIS
 │   ├── components
 │   └── package.json
 │
-│
 ├── backend
 │   ├── app
 │   ├── models
@@ -213,159 +213,263 @@ AEGIS
 │   ├── requirements.txt
 │   └── Dockerfile
 │
+├── screenshots
+│   ├── dashboard.png
+│   ├── report.png
+│   └── scan.png
 │
 └── README.md
-
-
 
 ---
 
 # ⚙️ Local Installation
 
-
 ## Clone Repository
 
-
 ```bash
-git clone https://github.com/yourusername/Aegis.git
+git clone https://github.com/RMP2005/Aegis.git
 
 cd Aegis
+```
 
-Frontend Setup-
+---
 
+# Frontend Setup
+
+```bash
 cd frontend
 
 npm install
 
 npm run dev
+```
 
 Frontend runs on:
+
+```
 http://localhost:3000
+```
 
-Backend Setup-
+---
 
+# Backend Setup
+
+```bash
 cd backend
 
-
 python -m venv venv
+```
 
+Activate environment:
 
-# Activate environment
+### macOS / Linux
 
+```bash
 source venv/bin/activate
+```
 
+### Windows
 
+```bash
+venv\Scripts\activate
+```
+
+Install dependencies:
+
+```bash
 pip install -r requirements.txt
+```
 
+Run backend:
 
+```bash
 uvicorn main:app --reload
+```
 
 Backend runs on:
-http://localhost:8000
 
-🔐 Environment Variables
-Frontend (.env.local)
+```
+http://localhost:8000
+```
+
+---
+
+# 🔐 Environment Variables
+
+## Frontend `.env.local`
+
+```env
 NEXT_PUBLIC_API_URL=http://localhost:8000
-Backend (.env)
-OPENAI_API_KEY=your_key_here
+```
+
+## Backend `.env`
+
+```env
+OPENAI_API_KEY=your_api_key_here
 
 CORS_ORIGINS=http://localhost:3000
 
 ENABLE_DOCS=true
 
 REPORTS_DIR=reports
+```
 
-ENV=production
+---
 
-🚀 Deployment
-Frontend Deployment (Vercel)
+# 🚀 Deployment
+
+## Frontend
+
+Deployed using Vercel.
+
 Steps:
-Import GitHub repository into Vercel
-Select frontend directory as root
-Framework:
-Next.js
-Add environment variables
-Deploy
-Backend Deployment (Render)
+
+1. Import repository into Vercel
+2. Select `frontend` as Root Directory
+3. Choose Next.js framework
+4. Add environment variables
+5. Deploy
+
+
+## Backend
+
+Deployed using Render Web Service.
+
 Steps:
-Create a new Web Service
-Connect GitHub repository
-Select backend directory
-Runtime:
-Docker
-Deploy
-Render Free Tier Note
-The backend uses Render Free Tier.
-Because free instances sleep after inactivity:
-First request may take longer
-Subsequent requests are faster
-Suitable for demos and portfolio deployment
-🔄 Alternative Deployment Options
-If Render/Vercel is unavailable, AEGIS can also be deployed using:
-Backend
-AWS EC2
-AWS ECS
-Google Cloud Run
-Azure App Service
-Railway
-Fly.io
-Frontend
-Netlify
-Cloudflare Pages
-AWS Amplify
-Full Docker Deployment
+
+1. Connect GitHub repository
+2. Select backend directory
+3. Use Docker runtime
+4. Deploy service
+
+
+## ⚠️ Render Free Tier
+
+The backend currently uses Render Free Tier.
+
+Due to free instance sleep behaviour:
+
+- First request after inactivity may take 30-60 seconds
+- Service automatically wakes after request
+- Later requests work normally
+
+
+This setup is suitable for:
+
+- Hackathon demos
+- Portfolio showcase
+- Testing environments
+
+
+For production workloads consider:
+
+- AWS EC2
+- AWS ECS
+- Google Cloud Run
+- Azure App Service
+- Railway
+- Fly.io
+
+
+---
+
+# 🐳 Docker Deployment
+
+Run complete application:
+
+```bash
 docker-compose up --build
-📸 Screenshots
-<img width="1459" height="823" alt="image" src="https://github.com/user-attachments/assets/14a52dc3-0a80-4156-b870-eccc2ad82984" />
+```
+
+---
+
+# 📸 Screenshots
 
 <p align="center">
 
-<img src="screenshots/dashboard.png" width="700"/>
+<img src="screenshots/dashboard.png" width="800"/>
 
 </p>
 
 
 <p align="center">
 
-<img src="screenshots/report.png" width="700"/>
+<img src="screenshots/report.png" width="800"/>
 
 </p>
-<img width="1466" height="832" alt="image" src="https://github.com/user-attachments/assets/589b4fc3-1765-4c2a-b85c-abe6aba79d68" />
 
 
+<p align="center">
+
+<img src="screenshots/scan.png" width="800"/>
+
+</p>
 
 
-🗺️ Roadmap
-Completed ✅
-AI security analysis
-Vulnerability detection
-Dashboard interface
-Cloud deployment
-Future Improvements 🚀
-Advanced ML vulnerability classification
-Real-time repository scanning
-GitHub Actions integration
-Automated security pull requests
-Enterprise security reports
-Multi-language support
-🤝 Contributing
+---
+
+# 🗺️ Roadmap
+
+## Completed ✅
+
+- AI security analysis
+- Vulnerability detection
+- Security dashboard
+- Automated reports
+- Cloud deployment
+
+
+## Future Improvements 🚀
+
+- Advanced ML vulnerability classification
+- Real-time repository scanning
+- GitHub Actions integration
+- Automated security pull requests
+- Enterprise security reports
+- Multi-language support
+
+
+---
+
+# 🤝 Contributing
+
 Contributions are welcome.
-Steps:
-git clone repo
 
+```bash
 git checkout -b feature-name
+
+git add .
 
 git commit -m "Added feature"
 
 git push origin feature-name
-Open a Pull Request 🚀
-⭐ Support
+```
+
+Create a Pull Request 🚀
+
+
+---
+
+# ⭐ Support
+
 If you found AEGIS useful:
-⭐ Star this repository
-Share feedback
-Suggest improvements
-📜 License
+
+- Star this repository
+- Share feedback
+- Suggest improvements
+
+
+---
+
+# 📜 License
+
 This project is licensed under the MIT License.
-👨‍💻 Built With ❤️
+
+
+---
+
+# 👨‍💻 Built With ❤️
+
 Built by developers who believe security should be intelligent, automated, and accessible.
+
 
