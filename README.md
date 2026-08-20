@@ -50,8 +50,9 @@ Backend API:
 
 # 📌 Overview
 
-AEGIS is an AI-powered security intelligence platform built to help developers
-identify vulnerabilities before deployment.
+AEGIS is an AI-powered smart contract security analysis platform designed to help Web3 developers identify, understand, and remediate Solidity vulnerabilities.
+
+By combining static analysis with AI-driven reasoning, AEGIS analyzes smart contracts, detects security risks, explains vulnerable code patterns, prioritizes threats, and provides actionable remediation guidance.
 
 Instead of manually reviewing thousands of lines of code, AEGIS combines:
 
@@ -64,52 +65,42 @@ Instead of manually reviewing thousands of lines of code, AEGIS combines:
 
 The objective:
 
-> Build a smarter security assistant that helps developers write safer code.
+> Build an AI-powered security intelligence assistant that helps Web3 developers detect, understand, and fix vulnerabilities in Solidity smart contracts before they become exploits.
 
 
 ---
 
-# ✨ Features
+## ✨ Key Features
+
+### 🔍 Solidity Vulnerability Detection
+
+Analyse Solidity smart contracts and identify common security issues including:
+
+- Reentrancy vulnerabilities
+- Access control weaknesses
+- Unsafe external interactions
+- Logic flaws
+- Gas optimisation concerns
 
 
-## 🔍 AI Powered Security Analysis
+### 🤖 AI Security Reasoning
 
-- Automated vulnerability scanning
-- Security issue detection
-- Risk categorization
-- Code analysis
+Beyond traditional static analysis, AEGIS explains:
 
-
-## 🧠 Explainable AI Insights
-
-AEGIS does not only detect problems.
-
-It explains:
-
-- Why the issue exists
-- Severity level
-- Possible impact
+- Why a vulnerability exists
+- Potential impact
+- Exploit scenarios
 - Recommended fixes
 
 
-## 📊 Security Dashboard
+### 📊 Security Reports
 
-Includes:
+Generate developer-friendly reports containing:
 
-- Scan history
-- Vulnerability reports
-- Project monitoring
-- Risk overview
-
-
-## ⚡ Developer Friendly Workflow
-
-Designed for developers with:
-
-- Fast analysis
-- Clean reports
-- Simple interface
-- Deployment-ready architecture
+- Vulnerability severity
+- Affected contract sections
+- Risk explanation
+- Suggested remediation
 
 
 ---
@@ -328,6 +319,14 @@ REPORTS_DIR=reports
 ```
 
 ---
+# Supported Input:
+
+✅ Solidity (.sol) smart contracts
+
+Future:
+- Multi-contract analysis
+- Repository level scanning
+- Deployment security checks
 
 # 🚀 Deployment
 
@@ -398,25 +397,10 @@ docker-compose up --build
 
 # 📸 Screenshots
 
-<p align="center">
-
-<img src="screenshots/dashboard.png" width="800"/>
-
-</p>
+<img width="1464" height="831" alt="image" src="https://github.com/user-attachments/assets/8f62cf1e-c9a2-4d03-8e07-17560f33d47d" />
+<img width="1470" height="834" alt="image" src="https://github.com/user-attachments/assets/98a6ef26-6b62-40bf-bbe0-06b90be22f94" />
 
 
-<p align="center">
-
-<img src="screenshots/report.png" width="800"/>
-
-</p>
-
-
-<p align="center">
-
-<img src="screenshots/scan.png" width="800"/>
-
-</p>
 
 
 ---
