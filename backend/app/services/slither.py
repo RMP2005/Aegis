@@ -1,9 +1,12 @@
 import os
 import json
+import logging
 import subprocess
 import tempfile
 from pathlib import Path
 from typing import Any
+
+logger = logging.getLogger(__name__)
 
 
 class SlitherResult:
@@ -50,7 +53,6 @@ def _map_detector_type_to_title(detector_type: str) -> str:
         "naming-conventions": "Naming Convention",
         "conformance-to-solidity-naming-conventions": "Naming Convention",
         "spelling": "Spelling",
-        "constable-states": "Constant State Variables",
         "immutable-states": "Immutable Variables",
         "cyclomatic-complexity": "Cyclomatic Complexity",
         "function-init": "Variable Initialization",
@@ -177,7 +179,12 @@ def _normalize_results(data: dict[str, Any]) -> list[dict]:
 
 def run_slither(source_code: str, filename: str = "Contract.sol") -> SlitherResult:
     with tempfile.TemporaryDirectory() as tmpdir:
-        contract_path = Path(tmpdir) / filename
+        tmpdir_path = Path(tmpdir).resolve()
+        contract_path = (tmpdir_path / filename).resolve()
+
+        if not str(contract_path).startswith(str(tmpdir_path)):
+            raise ValueError("Path traversal detected in filename")
+
         contract_path.write_text(source_code)
 
         result = subprocess.run(
@@ -199,6 +206,9 @@ def run_slither(source_code: str, filename: str = "Contract.sol") -> SlitherResu
             json_data = json.loads(output) if output.strip() else {}
             vulnerabilities = _normalize_results(json_data)
         except json.JSONDecodeError:
+            if result.returncode != 0:
+                raise RuntimeError(f"Slither failed: {result.stderr[:500]}")
+            logger.warning("Slither produced non-JSON output, returning empty results")
             vulnerabilities = []
 
         return SlitherResult(vulnerabilities=vulnerabilities, raw_output=output)

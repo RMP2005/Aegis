@@ -1,7 +1,10 @@
 import os
-import httpx
-from typing import Any
+import json
+import logging
 
+import httpx
+
+logger = logging.getLogger(__name__)
 
 MOCK_EXPLANATIONS = {
     "reentrancy": {
@@ -72,8 +75,9 @@ async def _api_analyze(
     api_key: str,
 ) -> list[dict]:
     enhanced = []
-    for vuln in vulnerabilities:
-        prompt = f"""You are a senior smart contract security auditor. Analyze this vulnerability found in {filename}:
+    async with httpx.AsyncClient(timeout=30) as client:
+        for vuln in vulnerabilities:
+            prompt = f"""You are a senior smart contract security auditor. Analyze this vulnerability found in {filename}:
 
 Vulnerability: {vuln['title']}
 Severity: {vuln['severity']}
@@ -96,8 +100,7 @@ Respond in JSON format:
   "recommendation": "..."
 }}"""
 
-        try:
-            async with httpx.AsyncClient(timeout=30) as client:
+            try:
                 response = await client.post(
                     "https://api.openai.com/v1/chat/completions",
                     headers={
@@ -115,15 +118,14 @@ Respond in JSON format:
                 if response.status_code == 200:
                     data = response.json()
                     content = data["choices"][0]["message"]["content"]
-                    import json
                     parsed = json.loads(content)
-                    vuln["explanation"] = parsed.get("explanation", vuln["explanation"])
-                    vuln["exploit_path"] = parsed.get("exploit_path", vuln["exploit_path"])
-                    vuln["recommendation"] = parsed.get("recommendation", vuln["recommendation"])
-        except Exception:
-            pass
+                    vuln["explanation"] = parsed.get("explanation") or vuln["explanation"]
+                    vuln["exploit_path"] = parsed.get("exploit_path") or vuln["exploit_path"]
+                    vuln["recommendation"] = parsed.get("recommendation") or vuln["recommendation"]
+            except Exception as e:
+                logger.warning(f"AI analysis failed for vulnerability '{vuln['title']}': {e}")
 
-        enhanced.append(vuln)
+            enhanced.append(vuln)
 
     return enhanced
 
@@ -162,7 +164,13 @@ def calculate_score(vulnerabilities: list[dict]) -> int:
         "low": 3,
     }
 
-    total_penalty = sum(penalties.get(v["severity"], 3) for v in vulnerabilities)
+    total_penalty = 0
+    for v in vulnerabilities:
+        sev = v["severity"]
+        if sev not in penalties:
+            logger.warning(f"Unknown severity '{sev}', treating as low")
+        total_penalty += penalties.get(sev, 3)
+
     score = max(0, 100 - total_penalty)
     return score
 

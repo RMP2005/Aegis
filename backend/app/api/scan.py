@@ -1,4 +1,6 @@
 import json
+import logging
+import os
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -10,10 +12,11 @@ from ..security import validate_solidity_code, validate_filename, sanitize_outpu
 from ..services.slither import run_slither
 from ..services.agent import analyze_with_ai, calculate_score, generate_summary
 
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
-REPORTS_DIR = Path(__file__).resolve().parent.parent.parent.parent / "reports"
+REPORTS_DIR = Path(os.environ.get("REPORTS_DIR", str(Path(__file__).resolve().parent.parent.parent.parent / "reports")))
 REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -35,7 +38,7 @@ async def scan_contract(request: ScanRequest):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    warnings = validate_solidity_code(source_code)
+    validate_solidity_code(source_code)
 
     stages = [
         "Compiling contract...",
@@ -85,6 +88,9 @@ async def scan_contract(request: ScanRequest):
 
     report_id = f"{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:8]}"
     report_path = REPORTS_DIR / f"{report_id}.json"
-    report_path.write_text(json.dumps(response.model_dump(), indent=2))
+    try:
+        report_path.write_text(json.dumps(response.model_dump(), indent=2))
+    except OSError as e:
+        logger.warning(f"Failed to write report to disk: {e}")
 
     return response

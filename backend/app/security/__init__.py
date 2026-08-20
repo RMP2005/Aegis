@@ -1,5 +1,7 @@
 import re
+import logging
 
+logger = logging.getLogger(__name__)
 
 MAX_SOURCE_CODE_LENGTH = 100_000
 MAX_FILENAME_LENGTH = 255
@@ -30,6 +32,12 @@ def validate_solidity_code(source_code: str) -> list[str]:
 def validate_filename(filename: str) -> str:
     if not filename or len(filename) > MAX_FILENAME_LENGTH:
         raise ValueError(f"Invalid filename: must be 1-{MAX_FILENAME_LENGTH} characters")
+
+    if ".." in filename or "/" in filename or "\\" in filename:
+        raise ValueError("Filename must not contain path separators or relative references")
+
+    if filename.startswith("."):
+        raise ValueError("Filename must not start with a dot")
 
     ext = "." + filename.rsplit(".", 1)[-1] if "." in filename else ""
     if ext and ext.lower() not in ALLOWED_EXTENSIONS:

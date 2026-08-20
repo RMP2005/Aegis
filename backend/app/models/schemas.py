@@ -1,14 +1,23 @@
 from pydantic import BaseModel, Field
-from typing import Optional
+from enum import Enum
+
+
+class Severity(str, Enum):
+    critical = "critical"
+    high = "high"
+    medium = "medium"
+    low = "low"
 
 
 class ScanRequest(BaseModel):
-    source_code: str = Field(..., description="Solidity source code to analyze")
-    filename: Optional[str] = Field(default="Contract.sol", description="Contract filename")
+    source_code: str = Field(
+        ..., max_length=100_000, description="Solidity source code to analyze"
+    )
+    filename: str = Field(default="Contract.sol", description="Contract filename")
 
 
 class Vulnerability(BaseModel):
-    severity: str
+    severity: Severity
     title: str
     location: str
     line: int

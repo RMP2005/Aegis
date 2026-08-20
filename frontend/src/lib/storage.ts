@@ -13,6 +13,7 @@ export interface ScanHistoryEntry {
 }
 
 const STORAGE_KEY = "aegis_scan_history";
+const MAX_HISTORY = 50;
 
 export function getScanHistory(): ScanHistoryEntry[] {
   if (typeof window === "undefined") return [];
@@ -34,6 +35,9 @@ export function addScanHistory(entry: Omit<ScanHistoryEntry, "id" | "date" | "st
 
   const history = getScanHistory();
   history.unshift(newEntry);
+  if (history.length > MAX_HISTORY) {
+    history.length = MAX_HISTORY;
+  }
   localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
   return newEntry;
 }

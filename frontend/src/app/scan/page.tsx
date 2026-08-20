@@ -9,6 +9,7 @@ import AttackPath from "@/components/workspace/AttackPath";
 import AnalystPanel from "@/components/workspace/AnalystPanel";
 import { DEMO_CONTRACTS, DEMO_VULNERABILITIES } from "@/lib/demo-data";
 import { addScanHistory } from "@/lib/storage";
+import { scanContract } from "@/lib/api";
 import type { Vulnerability } from "@/lib/api";
 
 type ScanStage = "idle" | "analyzing" | "patterns" | "impact" | "report" | "done";
@@ -35,6 +36,7 @@ export default function ScanPage() {
   const [showUploadMenu, setShowUploadMenu] = useState(false);
   const uploadMenuRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const abortRef = useRef<AbortController | null>(null);
 
   const vulnerableLines = vulnerabilities.map((v) => v.line).filter((l) => l > 0);
 
@@ -49,6 +51,12 @@ export default function ScanPage() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showUploadMenu]);
 
+  useEffect(() => {
+    return () => {
+      abortRef.current?.abort();
+    };
+  }, []);
+
   const runLiveScan = useCallback(async () => {
     if (isLoading) return;
     setIsLoading(true);
@@ -56,32 +64,27 @@ export default function ScanPage() {
     setScanStage("analyzing");
     setSelectedVuln(null);
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+    const controller = new AbortController();
+    abortRef.current = controller;
 
     try {
       await new Promise((r) => setTimeout(r, 800));
+      if (controller.signal.aborted) return;
       setScanStage("patterns");
 
-      const response = await fetch(`${API_URL}/api/v1/scan`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ source_code: code, filename }),
-      });
+      const data = await scanContract(code, filename);
 
-      if (!response.ok) {
-        const err = await response.json().catch(() => ({ detail: "Scan failed" }));
-        throw new Error(err.detail || "Scan failed");
-      }
-
+      if (controller.signal.aborted) return;
       setScanStage("impact");
       await new Promise((r) => setTimeout(r, 500));
+      if (controller.signal.aborted) return;
       setScanStage("report");
 
-      const data = await response.json();
       setVulnerabilities(data.vulnerabilities);
       setScore(data.score);
       setSummary(data.summary);
       setScanStage("done");
+      setShowResults(true);
 
       addScanHistory({
         filename,
@@ -93,11 +96,18 @@ export default function ScanPage() {
         low: data.vulnerabilities.filter((v: Vulnerability) => v.severity === "low").length,
         duration: "1.2s",
       });
-    } catch {
+    } catch (err: unknown) {
+      if (controller.signal.aborted) return;
+
       setVulnerabilities(DEMO_VULNERABILITIES);
       setScore(66);
-      setSummary("Using demo results (backend unavailable).");
+      setSummary(
+        err instanceof Error
+          ? `Error: ${err.message} (using demo results)`
+          : "Using demo results (backend unavailable)."
+      );
       setScanStage("done");
+      setShowResults(true);
 
       addScanHistory({
         filename,
@@ -109,10 +119,10 @@ export default function ScanPage() {
         low: 1,
         duration: "1.2s",
       });
+    } finally {
+      setIsLoading(false);
+      abortRef.current = null;
     }
-
-    setIsLoading(false);
-    setShowResults(true);
   }, [code, filename, isLoading]);
 
   const handleUpload = useCallback(
@@ -129,6 +139,9 @@ export default function ScanPage() {
         setScore(null);
         setShowResults(false);
         setSelectedVuln(null);
+      };
+      reader.onerror = () => {
+        console.error("Failed to read file");
       };
       reader.readAsText(file);
       e.target.value = "";
