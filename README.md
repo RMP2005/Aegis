@@ -252,6 +252,18 @@ http://localhost:3000
 ```
 
 ---
+## Continuous Integration
+
+This project uses GitHub Actions for automated checks.
+
+Every push and pull request runs:
+- Backend dependency installation
+- Backend test suite
+- Frontend dependency validation
+- ESLint checks
+- Production build verification
+
+This ensures code quality and deployment reliability.
 
 # Backend Setup
 
