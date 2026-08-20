@@ -37,5 +37,5 @@ htmlcov/
 docker-compose.override.yml
 
 # Reports (generated)
-reports/*.json
-reports/*.md
+reports/
+backend/reports/
